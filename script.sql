@@ -20,7 +20,7 @@ CREATE TABLE telecomunicaciones_stg(
     compus INT, --
     id_logit INT -- 
 );
-SELECT * FROM telecomunicaciones_stg;
+
 
 -- Tablas de dimensiones
 
@@ -29,12 +29,14 @@ CREATE TABLE dim_departamento (
     departamento VARCHAR(50) UNIQUE NOT NULL
 );
 
+
 CREATE TABLE dim_telefono(
 	id_telefono INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	tel_fija_unid INT,
     tel_movil_unid INT,
     tel_pub_unid INT
 );
+
 
 CREATE TABLE dim_hogar(
 	id_hogar INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -44,11 +46,13 @@ CREATE TABLE dim_hogar(
     hogar_1_compu_porc FLOAT
 );
 
+
 CREATE TABLE dim_pbi(
 	id_pbi INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     pbi_regional_miles INT,
     id_logit INT
 );
+
 
 CREATE TABLE dim_internet(
 	id_internet INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -56,12 +60,14 @@ CREATE TABLE dim_internet(
     sub_inter_fijo_unid INT
 );
 
+
 CREATE TABLE dim_computadora(
 	id_computadora INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     vab_tel_miles_2007 INT,
     compus INT, 
     uso_cabina_porc FLOAT
 );
+
 
 -- Tabla de Hechos
 CREATE TABLE fac_telecomunicaciones(
@@ -93,6 +99,57 @@ FOREIGN KEY fac_telecomunicaciones(id_internet) REFERENCES dim_internet(id_inter
 
 ALTER TABLE fac_telecomunicaciones ADD CONSTRAINT fk_dim_computadora
 FOREIGN KEY fac_telecomunicaciones(id_computadora) REFERENCES dim_computadora(id_computadora);
+
+-- Modificando tipos
+ALTER TABLE telecomunicaciones_stg CHANGE id_logit id_logit ENUM("Alto","Bajo");
+ALTER TABLE dim_pbi CHANGE id_logit id_logit ENUM("Alto","Bajo");
+
+ALTER TABLE telecomunicaciones_stg CHANGE departamento departamento ENUM('Amazonas', 'Áncash', 'Apurímac', 'Arequipa', 'Ayacucho', 'Cajamarca', 'Callao', 'Cusco', 
+'Huancavelica', 'Huánuco', 'Ica', 'Junín', 'La Libertad', 'Lambayeque', 'Lima Metropolitana', 'Lima provincias', 'Loreto', 'Madre de Dios', 'Moquegua', 
+'Pasco', 'Piura', 'Puno', 'San Martín', 'Tacna', 'Tumbes', 'Ucayali');
+ALTER TABLE dim_departamento CHANGE departamento departamento ENUM('Amazonas', 'Áncash', 'Apurímac', 'Arequipa', 'Ayacucho', 'Cajamarca', 'Callao', 'Cusco', 
+'Huancavelica', 'Huánuco', 'Ica', 'Junín', 'La Libertad', 'Lambayeque', 'Lima Metropolitana', 'Lima provincias', 'Loreto', 'Madre de Dios', 'Moquegua', 
+'Pasco', 'Piura', 'Puno', 'San Martín', 'Tacna', 'Tumbes', 'Ucayali');
+
+-- Verificando la insercción que se hizo en python
+SELECT DISTINCT(anio) FROM telecomunicaciones_stg;
+SELECT DISTINCT(departamento) FROM telecomunicaciones_stg;
+SELECT DISTINCT(id_logit) FROM telecomunicaciones_stg;
+SELECT * FROM telecomunicaciones_stg WHERE tel_fija_unid = NULL;
+
+-- Verificando el llenado de las tablas de dimensión
+SELECT COUNT(*) FROM dim_computadora;
+SELECT COUNT(*) FROM dim_internet;
+SELECT COUNT(*) FROM dim_pbi;
+SELECT COUNT(*) FROM dim_hogar;
+SELECT COUNT(*) FROM dim_telefono;
+SELECT COUNT(*) FROM dim_departamento;
+SELECT COUNT(*) FROM telecomunicaciones_stg;
+SELECT * FROM dim_computadora;
+SELECT * FROM dim_internet;
+SELECT * FROM dim_pbi;
+SELECT * FROM dim_hogar;
+SELECT * FROM dim_telefono;
+SELECT * FROM dim_departamento;
+SELECT * FROM telecomunicaciones_stg;
+
+DELETE FROM dim_computadora;
+DELETE FROM dim_internet;
+DELETE FROM dim_pbi;
+DELETE FROM dim_hogar;
+DELETE FROM dim_telefono;
+DELETE FROM dim_departamento;
+DELETE FROM telecomunicaciones_stg;
+ALTER TABLE dim_computadora AUTO_INCREMENT = 1;
+ALTER TABLE dim_internet AUTO_INCREMENT = 1;
+ALTER TABLE dim_pbi AUTO_INCREMENT = 1;
+ALTER TABLE dim_hogar AUTO_INCREMENT = 1;
+ALTER TABLE dim_telefono AUTO_INCREMENT = 1;
+ALTER TABLE dim_departamento AUTO_INCREMENT = 1;
+ALTER TABLE telecomunicaciones_stg AUTO_INCREMENT = 1;
+
+
+
 
 
 
