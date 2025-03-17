@@ -48,9 +48,23 @@ columnas_stg = ['departamento', 'anio', 'uso_cabina_porc', 'tel_fija_unid', 'tel
 
 insertar_datos('telecomunicaciones_stg', columnas_stg)
 
+# Insertar datos en la tabla de hechos fac_telecomunicaciones
+sql_fac = """
+INSERT INTO fac_telecomunicaciones (id_departamento, id_telefono, id_hogar, id_pbi, id_internet, id_computadora, anio)
+SELECT d.id_departamento, t.id_telefono, h.id_hogar, p.id_pbi, i.id_internet, c.id_computadora, s.anio
+FROM telecomunicaciones_stg s
+JOIN dim_departamento d ON d.departamento = s.departamento
+JOIN dim_telefono t ON t.id_telefono = s.id
+JOIN dim_hogar h ON h.id_hogar = s.id
+JOIN dim_pbi p ON p.id_pbi = s.id
+JOIN dim_internet i ON i.id_internet = s.id
+JOIN dim_computadora c ON c.id_computadora = s.id
+"""
+cursor.execute(sql_fac)
+
 # Confirmar cambios y cerrar conexión
 conn.commit()
 cursor.close()
 conn.close()
 
-print("Datos insertados correctamente en las tablas de dimensión y en telecomunicaciones_stg.")
+print("Datos insertados correctamente en las tablas de dimensión, en telecomunicaciones_stg y en fac_telecomunicaciones.")

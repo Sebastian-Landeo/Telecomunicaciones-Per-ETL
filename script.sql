@@ -133,6 +133,7 @@ SELECT * FROM dim_telefono;
 SELECT * FROM dim_departamento;
 SELECT * FROM telecomunicaciones_stg;
 
+-- Para reiniciar el incremento de sus llaves primarias
 DELETE FROM dim_computadora;
 DELETE FROM dim_internet;
 DELETE FROM dim_pbi;
@@ -147,6 +148,16 @@ ALTER TABLE dim_hogar AUTO_INCREMENT = 1;
 ALTER TABLE dim_telefono AUTO_INCREMENT = 1;
 ALTER TABLE dim_departamento AUTO_INCREMENT = 1;
 ALTER TABLE telecomunicaciones_stg AUTO_INCREMENT = 1;
+
+-- Sentencia para llenar tabla de hechos
+SELECT * FROM fac_telecomunicaciones;
+SELECT id_departamento, id_telefono, id_hogar, id_pbi, id_internet, id_computadora, anio FROM telecomunicaciones_stg
+JOIN dim_computadora ON dim_computadora.id_computadora = telecomunicaciones_stg.id
+JOIN dim_internet ON dim_internet.id_internet = telecomunicaciones_stg.id
+JOIN dim_pbi ON dim_pbi.id_pbi = telecomunicaciones_stg.id
+JOIN dim_hogar ON dim_hogar.id_hogar = telecomunicaciones_stg.id
+JOIN dim_telefono ON dim_telefono.id_telefono = telecomunicaciones_stg.id
+JOIN dim_departamento ON dim_departamento.departamento = telecomunicaciones_stg.departamento;
 
 
 
