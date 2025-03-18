@@ -1,6 +1,10 @@
 CREATE DATABASE telecomunicaciones;
 USE telecomunicaciones;
-
+SELECT tel_movil_unid, departamento, anio FROM telecomunicaciones_stg 
+WHERE anio = 2011
+ORDER BY tel_movil_unid;
+SELECT SUM(tel_pub_unid), anio, COUNT(*) FROM telecomunicaciones_stg GROUP BY anio;
+SELECT SUM(tel_fija_unid), anio, COUNT(*) FROM telecomunicaciones_stg GROUP BY anio;
 CREATE TABLE telecomunicaciones_stg(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     departamento VARCHAR(20), --
