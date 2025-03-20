@@ -145,6 +145,7 @@ DELETE FROM dim_hogar;
 DELETE FROM dim_telefono;
 DELETE FROM dim_departamento;
 DELETE FROM telecomunicaciones_stg;
+DELETE FROM fac_telecomunicaciones;
 ALTER TABLE dim_computadora AUTO_INCREMENT = 1;
 ALTER TABLE dim_internet AUTO_INCREMENT = 1;
 ALTER TABLE dim_pbi AUTO_INCREMENT = 1;
@@ -152,6 +153,7 @@ ALTER TABLE dim_hogar AUTO_INCREMENT = 1;
 ALTER TABLE dim_telefono AUTO_INCREMENT = 1;
 ALTER TABLE dim_departamento AUTO_INCREMENT = 1;
 ALTER TABLE telecomunicaciones_stg AUTO_INCREMENT = 1;
+ALTER TABLE fac_telecomunicaciones AUTO_INCREMENT = 1;
 
 -- Sentencia para llenar tabla de hechos
 SELECT * FROM fac_telecomunicaciones;
@@ -163,8 +165,46 @@ JOIN dim_hogar ON dim_hogar.id_hogar = telecomunicaciones_stg.id
 JOIN dim_telefono ON dim_telefono.id_telefono = telecomunicaciones_stg.id
 JOIN dim_departamento ON dim_departamento.departamento = telecomunicaciones_stg.departamento;
 
+-- Enriquecimiento de datos
+-- Agregar la columna ubigeo
+ALTER TABLE dim_departamento
+ADD COLUMN ubigeo VARCHAR(6) UNIQUE NOT NULL;
+
+-- Insertar los valores con su respectivo ubigeo
+-- Agregar la columna ubigeo si aún no existe
+ALTER TABLE dim_departamento
+ADD COLUMN ubigeo VARCHAR(6) NOT NULL;
+
+-- Actualizar los valores de ubigeo para cada departamento
+UPDATE dim_departamento SET ubigeo = '010000' WHERE departamento = 'Amazonas';
+UPDATE dim_departamento SET ubigeo = '020000' WHERE departamento = 'Áncash';
+UPDATE dim_departamento SET ubigeo = '030000' WHERE departamento = 'Apurímac';
+UPDATE dim_departamento SET ubigeo = '040000' WHERE departamento = 'Arequipa';
+UPDATE dim_departamento SET ubigeo = '050000' WHERE departamento = 'Ayacucho';
+UPDATE dim_departamento SET ubigeo = '060000' WHERE departamento = 'Cajamarca';
+UPDATE dim_departamento SET ubigeo = '070000' WHERE departamento = 'Callao';
+UPDATE dim_departamento SET ubigeo = '080000' WHERE departamento = 'Cusco';
+UPDATE dim_departamento SET ubigeo = '090000' WHERE departamento = 'Huancavelica';
+UPDATE dim_departamento SET ubigeo = '100000' WHERE departamento = 'Huánuco';
+UPDATE dim_departamento SET ubigeo = '110000' WHERE departamento = 'Ica';
+UPDATE dim_departamento SET ubigeo = '120000' WHERE departamento = 'Junín';
+UPDATE dim_departamento SET ubigeo = '130000' WHERE departamento = 'La Libertad';
+UPDATE dim_departamento SET ubigeo = '140000' WHERE departamento = 'Lambayeque';
+UPDATE dim_departamento SET ubigeo = '150000' WHERE departamento = 'Lima Metropolitana';
+UPDATE dim_departamento SET ubigeo = '150100' WHERE departamento = 'Lima provincias';
+UPDATE dim_departamento SET ubigeo = '160000' WHERE departamento = 'Loreto';
+UPDATE dim_departamento SET ubigeo = '170000' WHERE departamento = 'Madre de Dios';
+UPDATE dim_departamento SET ubigeo = '180000' WHERE departamento = 'Moquegua';
+UPDATE dim_departamento SET ubigeo = '190000' WHERE departamento = 'Pasco';
+UPDATE dim_departamento SET ubigeo = '200000' WHERE departamento = 'Piura';
+UPDATE dim_departamento SET ubigeo = '210000' WHERE departamento = 'Puno';
+UPDATE dim_departamento SET ubigeo = '220000' WHERE departamento = 'San Martín';
+UPDATE dim_departamento SET ubigeo = '230000' WHERE departamento = 'Tacna';
+UPDATE dim_departamento SET ubigeo = '240000' WHERE departamento = 'Tumbes';
+UPDATE dim_departamento SET ubigeo = '250000' WHERE departamento = 'Ucayali';
 
 
-
+SELECT * FROM dim_departamento;
+SELECT * FROM telecomunicaciones_stg;
 
 
